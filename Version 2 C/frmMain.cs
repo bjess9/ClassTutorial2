@@ -3,16 +3,26 @@ using System.Windows.Forms;
 
 namespace Version_2_C
 {
-    public partial class frmMain : Form
+    sealed partial class frmMain : Form
     {
-        public frmMain()
+        private frmMain()
         {
             InitializeComponent();
         }
 
+        private static readonly frmMain _instance = new frmMain();
+        public event Notify GalleryNameChanged;
+        public delegate void Notify(string prGalleryName);
         private clsArtistList _ArtistList = new clsArtistList();
+        internal static frmMain Instance => _instance;
 
-        private void updateDisplay()
+        private void updateTitle(string prGalleryName)
+        {
+            if (!string.IsNullOrEmpty(prGalleryName))
+                Text = "Gallery - " + prGalleryName;
+        }
+
+        public void updateDisplay()
         {
             lstArtists.DataSource = null;
             string[] lcDisplayList = new string[_ArtistList.Count];
@@ -25,14 +35,13 @@ namespace Version_2_C
         {
             try
             {
-                _ArtistList.NewArtist();
-                MessageBox.Show("Artist added!", "Success");
-                updateDisplay();
+                frmArtist.Run(new clsArtist(_ArtistList));
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error adding new artist");
             }
+            updateDisplay();
         }
 
         private void lstArtists_DoubleClick(object sender, EventArgs e)
@@ -43,8 +52,7 @@ namespace Version_2_C
             if (lcKey != null)
                 try
                 {
-                    _ArtistList.EditArtist(lcKey);
-                    updateDisplay();
+                    frmArtist.Run(_ArtistList[lcKey]);
                 }
                 catch (Exception ex)
                 {
@@ -96,6 +104,31 @@ namespace Version_2_C
                 MessageBox.Show(ex.Message, "File retrieve error");
             }
             updateDisplay();
+            GalleryNameChanged += new Notify(updateTitle);
+            GalleryNameChanged(_ArtistList.GalleryName); // event raising!
+        }
+
+        private void btnChangeFormName_Click(object sender, EventArgs e)
+        {
+            string lcReply = new InputBox(clsArtistList.FORM_RENAME_PROMPT).Answer;
+            if (lcReply != null)
+            {
+                _ArtistList.GalleryName = lcReply;
+                GalleryNameChanged(_ArtistList.GalleryName);
+            }
+        }
+
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                _ArtistList.Save();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "File Save Error");
+            }
+            Close();
         }
     }
 }

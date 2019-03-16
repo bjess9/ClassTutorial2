@@ -3,10 +3,14 @@ using System.Collections.Generic;
 
 namespace Version_2_C
 {
-    class clsDateComparer : IComparer<clsWork>
+    sealed class clsDateComparer : IComparer<clsWork>
     {
+        private clsDateComparer() { }
+        public static readonly clsDateComparer Instance = new clsDateComparer();
+
         public int Compare(clsWork x, clsWork y)
         {
+
             // long version:
             //DateTime lcDateX = x.Date;
             //DateTime lcDateY = y.Date;
@@ -17,9 +21,11 @@ namespace Version_2_C
         }
     }
 
-    class clsDDateComparer : IComparer<clsWork>
+    sealed class clsDDateComparer : IComparer<clsWork>
     // descending date comparer, i.e. reverse sorting order!
     {
+        private clsDDateComparer() { }
+        public static readonly clsDDateComparer Instance = new clsDDateComparer();
         public int Compare(clsWork x, clsWork y)
         {
             return y.Date.CompareTo(x.Date);

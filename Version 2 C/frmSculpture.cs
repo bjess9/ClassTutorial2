@@ -1,10 +1,17 @@
 namespace Version_2_C
 {
-    public partial class frmSculpture : Version_2_C.frmWork
+    sealed partial class frmSculpture : Version_2_C.frmWork
     {
-        public frmSculpture()
+        private frmSculpture()
         {
             InitializeComponent();
+        }
+
+        public static readonly frmSculpture Instance = new frmSculpture();
+
+        public static void Run(clsSculpture prSculpture)
+        {
+            Instance.SetDetails(prSculpture);
         }
 
         protected override void updateForm()

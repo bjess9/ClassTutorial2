@@ -35,6 +35,7 @@ namespace Version_2_C
             this.btnAdd = new System.Windows.Forms.Button();
             this.Label1 = new System.Windows.Forms.Label();
             this.lstArtists = new System.Windows.Forms.ListBox();
+            this.btnChangeFormName = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblValue
@@ -95,11 +96,21 @@ namespace Version_2_C
             this.lstArtists.TabIndex = 7;
             this.lstArtists.DoubleClick += new System.EventHandler(this.lstArtists_DoubleClick);
             // 
+            // btnChangeFormName
+            // 
+            this.btnChangeFormName.Location = new System.Drawing.Point(161, 124);
+            this.btnChangeFormName.Name = "btnChangeFormName";
+            this.btnChangeFormName.Size = new System.Drawing.Size(80, 35);
+            this.btnChangeFormName.TabIndex = 14;
+            this.btnChangeFormName.Text = "Change Form Name";
+            this.btnChangeFormName.Click += new System.EventHandler(this.btnChangeFormName_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(256, 253);
+            this.Controls.Add(this.btnChangeFormName);
             this.Controls.Add(this.lblValue);
             this.Controls.Add(this.Label2);
             this.Controls.Add(this.btnQuit);
@@ -109,6 +120,7 @@ namespace Version_2_C
             this.Controls.Add(this.lstArtists);
             this.Name = "frmMain";
             this.Text = "Gallery (v2 C)";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.ResumeLayout(false);
 
@@ -123,6 +135,7 @@ namespace Version_2_C
         internal System.Windows.Forms.Button btnAdd;
         internal System.Windows.Forms.Label Label1;
         internal System.Windows.Forms.ListBox lstArtists;
+        internal System.Windows.Forms.Button btnChangeFormName;
     }
 }
 

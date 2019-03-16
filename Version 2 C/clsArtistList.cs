@@ -8,30 +8,34 @@ namespace Version_2_C
     public class clsArtistList : SortedDictionary<string, clsArtist>
     {
         private const string _FileName = "gallery.dat";
+        private string _galleryName;
+        public static readonly string FORM_RENAME_PROMPT = "Please enter the new name for your form.";
 
-        public void EditArtist(string prKey)
-        {
-            clsArtist lcArtist;
-            lcArtist = this[prKey];
-            if (lcArtist != null)
-                lcArtist.EditDetails();
-            else
-                throw new Exception("Sorry no artist by this name");
-        }
+        public string GalleryName { get => _galleryName; set => _galleryName = value; }
 
-        public void NewArtist()
-        {
-            clsArtist lcArtist = new clsArtist(this);
-            if (lcArtist.Name != "")
-                Add(lcArtist.Name, lcArtist);
-        }
+        //public void EditArtist(string prKey)
+        //{
+        //    clsArtist lcArtist;
+        //    lcArtist = this[prKey];
+        //    if (lcArtist != null)
+        //        lcArtist.EditDetails();
+        //    else
+        //        throw new Exception("Sorry no artist by this name");
+        //}
+
+        //public void NewArtist()
+        //{
+        //    clsArtist lcArtist = new clsArtist(this);
+        //    if (lcArtist.Name != "")
+        //        Add(lcArtist.Name, lcArtist);
+        //}
 
         public decimal GetTotalValue()
         {
             decimal lcTotal = 0;
             foreach (clsArtist lcArtist in Values)
             {
-                lcTotal += lcArtist.TotalValue;
+                lcTotal += lcArtist.WorksList.GetTotalValue();
             }
             return lcTotal;
         }
